@@ -89,6 +89,43 @@ int JpegMap::write_jpeg_file(const char *filename, const unsigned quality)
 	return 0;
 }
 
+static inline void addPixelRgbValues(const RgbColor col, unsigned &r, unsigned &g, unsigned &b, const unsigned factor = 1)
+{
+	r += col.r * factor;
+	g += col.g * factor;
+	b += col.b * factor;
+}
+
+RgbColor JpegMap::blurPixel(const unsigned x, const unsigned y) const
+{
+	unsigned r = 0, g = 0, b = 0;
+	unsigned cnt = 8;
+
+	addPixelRgbValues(getPixel(x, y), r, g, b, cnt);
+
+	if (x > 0        ) { addPixelRgbValues(getPixel(x-1, y  ), r, g, b); ++cnt; }
+	if (x < _width-1 ) { addPixelRgbValues(getPixel(x+1, y  ), r, g, b); ++cnt; }
+	if (y > 0        ) { addPixelRgbValues(getPixel(x  , y-1), r, g, b); ++cnt; }
+	if (y < _height-1) { addPixelRgbValues(getPixel(x  , y+1), r, g, b); ++cnt; }
+
+	return RgbColor(r / cnt, g / cnt, b / cnt);
+}
+
+void JpegMap::blur()
+{
+	for (int y = 0; y < _height; ++y) 
+		for (int x = 0; x < _width; ++x) 
+			setPixel(x, y, blurPixel(x, y));
+}
+
+
+RgbColor JpegMap::getPixel(const unsigned x, const unsigned y) const
+{
+	const unsigned offset = ( x + y * _width ) * _bpp;
+	//if (x >= _width || y >= _height) return RgbColor(0, 0, 0);
+	return RgbColor(_raw[offset+2], _raw[offset+1], _raw[offset]);
+}
+
 void JpegMap::setPixel(const unsigned x, const unsigned y, const RgbColor color)
 {
 	const unsigned offset = ( x + y * _width ) * _bpp;

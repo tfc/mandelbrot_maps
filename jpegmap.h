@@ -19,10 +19,15 @@ class JpegMap
 		unsigned int _bpp; 
 		J_COLOR_SPACE _color_space;
 
+		RgbColor blurPixel(const unsigned x, const unsigned y) const;
+
 	public:
 		int read_jpeg_file(const char *filename);
 		int write_jpeg_file(const char *filename, const unsigned quality = 75);
+
+		void blur();
 		
+		RgbColor getPixel(const unsigned x, const unsigned y) const;
 		void setPixel(const unsigned x, const unsigned y, const RgbColor color);
 	
 		unsigned width()  const { return _width; }

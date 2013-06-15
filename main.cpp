@@ -83,6 +83,8 @@ void paint_part(const unsigned total_width, const unsigned total_height,
 		}
 	}
 
+	img.blur();
+
 	img.write_jpeg_file(filename.c_str(), 75);
 }
 
@@ -103,30 +105,15 @@ int main(int argc, char **argv)
 	const unsigned zoom = atoi(argv[3]);
 	const unsigned iterations = atoi(argv[4]);
 
-	cout << "Painting " << size << "x" << size << "px mandelbrot" 
-		<< " with " << omp_get_max_threads() << " threads." << endl;
-
-	html << "<html><head><title>Mandelbrot " << size << " x " << size
-		<< " px</title></head>" << endl;
-	html << "<body>" << endl;
-
-	html << "<table cellspacing=\"0\" cellpadding=\"0\">" << endl;
-
 	for (unsigned i=0; i < chunks; ++i) {
-		html << "<tr>" << endl;
 		for (unsigned j=0; j < chunks; ++j) {
 			std::stringstream file;
 			file << "pics/" << zoom << "/mb_" << zoom << "_" << j << "_" << i << ".jpg";
 
-			html << "<td><img src=\"" << file.str() << "\" /></td>" << endl;
-
 			paint_part(size, size, chunks, chunks, j, i, iterations, file.str());
 		}
-		html << "</tr>" << endl;
 	}
 
-	html << "</table>" << endl;
-	html << "</body></html>" << endl;
 
 	return 0;
 }
