@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for zoom in $(seq 0 $1); do
+for zoom in $(seq $1 $2); do
 	size=$(( 2 ** ( 10 + $zoom ) ))
 	echo "zoom $zoom size $size"
 

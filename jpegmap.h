@@ -33,14 +33,27 @@ class JpegMap
 		unsigned width()  const { return _width; }
 		unsigned height() const { return _height; }
 
+		void reinit(const unsigned width, const unsigned height)
+		{
+			if (_raw != NULL) delete _raw;
+			_raw = NULL;
+
+			_width = width;
+			_height = height;
+			_bpp = 3;
+			_color_space = JCS_RGB;
+
+			if (width && height)
+				_raw = new unsigned char[width * height * _bpp];
+		}
+
 		JpegMap()
-			: _raw(NULL), _width(0), _height(0), _bpp(0), _color_space(JCS_RGB)
-		{}
+			: _raw(NULL)
+		{ reinit(0, 0); }
 
 		JpegMap(const unsigned width, const unsigned height)
-			: _raw(new unsigned char[width * height * 3]), 
-			_width(width), _height(height), _bpp(3), _color_space(JCS_RGB)
-		{}
+			: _raw(NULL)
+		{ reinit(width, height); }
 
 		~JpegMap() { if (_raw) delete _raw; }
 };
