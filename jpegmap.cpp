@@ -2,6 +2,9 @@
 #include <iostream>
 #include <string>
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "jpegmap.h"
 
 int JpegMap::read_jpeg_file(const std::string &filename)

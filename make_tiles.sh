@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 for zoom in $(seq $1 $2); do
 	size=$(( 2 ** ( 10 + $zoom ) ))
