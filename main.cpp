@@ -1,13 +1,15 @@
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <fstream>
+#include <stdlib.h>
 #include <math.h>
-#include <complex>
 #include <omp.h>
 #include <time.h>
 #include <sys/stat.h>
 #include <errno.h>
+
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <fstream>
+#include <complex>
 
 #include "jpegmap.h"
 #include "colors.h"
