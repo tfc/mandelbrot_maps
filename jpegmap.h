@@ -2,9 +2,7 @@
 #ifndef __JPEGMAP_H__
 #define __JPEGMAP_H__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <jpeglib.h>
 
 #include "colors.h"
@@ -22,13 +20,13 @@ class JpegMap
 		RgbColor blurPixel(const unsigned x, const unsigned y) const;
 
 	public:
-		int read_jpeg_file(const char *filename);
-		int write_jpeg_file(const char *filename, const unsigned quality = 75);
+		int read_jpeg_file(const std::string &filename);
+		int write_jpeg_file(const std::string &filename, const unsigned quality = 75) const;
 
 		void blur();
 		
 		RgbColor getPixel(const unsigned x, const unsigned y) const;
-		void setPixel(const unsigned x, const unsigned y, const RgbColor color);
+		void setPixel(const unsigned x, const unsigned y, const RgbColor &color);
 	
 		unsigned width()  const { return _width; }
 		unsigned height() const { return _height; }

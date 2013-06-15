@@ -1,3 +1,6 @@
+<!-- This code is taken from Google's Moon Map code example -->
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,9 +15,7 @@
 						return null;
 					}
 					var bound = 1 << (zoom + 1);
-					//return 'http://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw' + '/' + zoom + '/' + normalizedCoord.x + '/' + (bound - normalizedCoord.y - 1) + '.jpg';
-
-					return 'pics/' + zoom + '/mb_' + normalizedCoord.x + '_' + normalizedCoord.y + '.jpg';
+					return './pics/' + zoom + '/mb_' + normalizedCoord.x + '_' + normalizedCoord.y + '.jpg';
 
 				},
 				tileSize: new google.maps.Size(256, 256),

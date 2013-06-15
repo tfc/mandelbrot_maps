@@ -1,16 +1,20 @@
+
+#include <iostream>
+#include <string>
+
 #include "jpegmap.h"
 
-int JpegMap::read_jpeg_file(const char *filename)
+int JpegMap::read_jpeg_file(const std::string &filename)
 {
 	struct jpeg_decompress_struct cinfo;
 	struct jpeg_error_mgr jerr;
 	JSAMPROW row_pointer[1];
 
-	FILE *infile = fopen(filename, "rb");
+	FILE *infile = fopen(filename.c_str(), "rb");
 	unsigned long location = 0;
 
 	if (!infile) {
-		printf("Error opening jpeg file %s\n!", filename);
+		std::cout << "Error opening jpeg file " << filename << "!" << std::endl;
 		return -1;
 	}
 
@@ -44,7 +48,7 @@ int JpegMap::read_jpeg_file(const char *filename)
 	return 0;
 }
 
-int JpegMap::write_jpeg_file(const char *filename, const unsigned quality)
+int JpegMap::write_jpeg_file(const std::string &filename, const unsigned quality) const
 {
 	if (!_raw || !_width || !_height)
 		return -1;
@@ -53,10 +57,10 @@ int JpegMap::write_jpeg_file(const char *filename, const unsigned quality)
 	struct jpeg_error_mgr jerr;
 
 	JSAMPROW row_pointer[1];
-	FILE *outfile = fopen(filename, "wb");
+	FILE *outfile = fopen(filename.c_str(), "wb");
 
 	if (!outfile) {
-		printf("Error opening output jpeg file %s\n!", filename);
+		std::cout << "Error opening output jpeg file " << filename << "!" << std::endl;
 		return -1;
 	}
 
@@ -89,7 +93,7 @@ int JpegMap::write_jpeg_file(const char *filename, const unsigned quality)
 	return 0;
 }
 
-static inline void addPixelRgbValues(const RgbColor col, unsigned &r, unsigned &g, unsigned &b, const unsigned factor = 1)
+static inline void addPixelRgbValues(const RgbColor &col, unsigned &r, unsigned &g, unsigned &b, const unsigned factor = 1)
 {
 	r += col.r * factor;
 	g += col.g * factor;
@@ -126,7 +130,7 @@ RgbColor JpegMap::getPixel(const unsigned x, const unsigned y) const
 	return RgbColor(_raw[offset+2], _raw[offset+1], _raw[offset]);
 }
 
-void JpegMap::setPixel(const unsigned x, const unsigned y, const RgbColor color)
+void JpegMap::setPixel(const unsigned x, const unsigned y, const RgbColor &color)
 {
 	const unsigned offset = ( x + y * _width ) * _bpp;
 	if (x >= _width || y >= _height) return;
