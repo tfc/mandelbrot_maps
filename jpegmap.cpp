@@ -106,7 +106,7 @@ static inline void addPixelRgbValues(const RgbColor &col, unsigned &r, unsigned 
 RgbColor JpegMap::blurPixel(const unsigned x, const unsigned y) const
 {
 	unsigned r = 0, g = 0, b = 0;
-	unsigned cnt = 8;
+	unsigned cnt = 4;
 
 	addPixelRgbValues(getPixel(x, y), r, g, b, cnt);
 
