@@ -8,7 +8,9 @@ for the Google Maps API.
 Usage:
 
 1.) run "make" to compile it.
-2.) run "./make_tiles 0 7" to generate zoom steps 0 to 7
+
+2.) run "./make_tiles.sh 0 7" to generate zoom steps 0 to 7
+
 3.) open "map.html" to look at the result. 
 
 The Google Maps code included in map.html is configured to use zoom
