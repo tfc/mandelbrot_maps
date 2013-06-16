@@ -26,10 +26,10 @@ static inline int mandelbrot_iterations(const cmplx pos, const unsigned max_iter
 	cmplx z = 0;
 	unsigned iteration = 0;
 
-	if (squ_abs(pos - cmplx(-0.4, 0)) > 3.2) return 0;
-	if (squ_abs(pos - cmplx(-1, 0)) < 0.05) return 0;
-	if (pos.real() < 0 && squ_abs(pos - cmplx(-0.1, 0)) < 0.4) return 0;
-	if (pos.real() >= 0 && squ_abs(pos + cmplx(-0.16, 0)) < pow(arg(pos + cmplx(-0.16, 0)) / 2.8, 2)) return 0;
+	if (squ_abs(pos + cmplx(0.4, 0)) > 3.2) return 0;
+	double q = squ_abs(pos - cmplx(0.25, 0));
+	if (q * ( q + (pos.real() - 0.25) ) < pos.imag() * pos.imag() / 4) return -0;
+	if (squ_abs(pos + cmplx(1, 0)) < 1.0 / 16.0) return -0;
 
 	while (squ_abs(z) < 4 && iteration < max_iterations) {
 		z = z*z + pos;
