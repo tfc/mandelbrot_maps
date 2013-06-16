@@ -130,7 +130,7 @@ RgbColor JpegMap::getPixel(const unsigned x, const unsigned y) const
 {
 	const unsigned offset = ( x + y * _width ) * _bpp;
 	if (x >= _width || y >= _height) return RgbColor(0, 0, 0);
-	return RgbColor(_raw[offset+2], _raw[offset+1], _raw[offset]);
+	return RgbColor(_raw[offset], _raw[offset+1], _raw[offset+2]);
 }
 
 void JpegMap::setPixel(const unsigned x, const unsigned y, const RgbColor &color)
@@ -138,8 +138,8 @@ void JpegMap::setPixel(const unsigned x, const unsigned y, const RgbColor &color
 	const unsigned offset = ( x + y * _width ) * _bpp;
 	if (x >= _width || y >= _height) return;
 
-	_raw[offset]     = color.b;
+	_raw[offset + 2]     = color.b;
 	_raw[offset + 1] = color.g;
-	_raw[offset + 2] = color.r;
+	_raw[offset] = color.r;
 }
 
