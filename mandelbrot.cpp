@@ -92,13 +92,13 @@ void paint_part(const unsigned total_width, const unsigned total_height,
 	{
 	std::stringstream file;
 	file << filename_prefix << "mb_" << chunk_x << "_" << chunk_y << ".jpg";
-	img.write_jpeg_file(file.str().c_str(), 75);
+	img.write_jpeg_file(file.str().c_str(), 95);
 	}
 
 	if (mirror_optimization) {
 		std::stringstream file;
 		file << filename_prefix << "mb_" << chunk_x << "_" << chunk_y_mirror << ".jpg";
-		img_mirror.write_jpeg_file(file.str().c_str(), 75);
+		img_mirror.write_jpeg_file(file.str().c_str(), 95);
 	}
 }
 
