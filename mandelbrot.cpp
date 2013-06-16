@@ -1,5 +1,5 @@
 #include <sstream>
-#include <math.h>
+#include <cmath>
 #include <complex>
 
 #include "mandelbrot.h"
@@ -21,7 +21,7 @@ static inline cmplx complex_coord(const unsigned width, const unsigned height,
 	return cmplx(real, imag);
 }
 
-static inline int mandelbrot_iterations(const cmplx pos, const unsigned max_iterations)
+static inline double mandelbrot_iterations(const cmplx pos, const unsigned max_iterations)
 {
 	cmplx z = 0;
 	unsigned iteration = 0;
@@ -36,12 +36,13 @@ static inline int mandelbrot_iterations(const cmplx pos, const unsigned max_iter
 		++iteration;
 	}
 
-	return iteration - log(  log(squ_abs(z) / log(4))  ) / log(2);
+	return iteration - log(   log(squ_abs(z))/2.0 / log(max_iterations)   ) / log(2);
 }
 
-static inline RgbColor rgb_mandelbrot(int its)
+static inline RgbColor rgb_mandelbrot(double its)
 {
-	HsvColor hsv(its % 256, 255, 255 - 255 / (its +1));
+	const unsigned brightness = std::min(std::pow(std::max(its-6, 0.0), 2), 255.0);
+	HsvColor hsv(static_cast<unsigned>(its) % 256, 255, brightness);
 	return RgbColor(hsv);
 }
 
@@ -65,23 +66,25 @@ void paint_part(const unsigned total_width, const unsigned total_height,
 	if (mirror_optimization) 
 		img_mirror.reinit(img_width, img_height);
 
-	int valcnt = 0;
+	int maxval = 0;
 
 	for (int y = 0; y < img_height; ++y) {
 		for (int x = 0; x < img_width; ++x) {
 			const cmplx pos = complex_coord(total_width, total_height, 
 					x + start_x, y + start_y);
-			const int val = mandelbrot_iterations(pos, iterations) * 10;
-			valcnt += val;
+			const double val = mandelbrot_iterations(pos, iterations);
+
 			const RgbColor col = rgb_mandelbrot(val);
 			img.setPixel(x, y, col);
 			img_mirror.setPixel(x, img_height - 1 - y, col);
+
+			maxval = std::max(maxval, static_cast<int>(val));
 		}
 	}
 
 	// If valcnt is zero, then every pixel is black.
 	// Don't waste disk space for that.
-	if (valcnt == 0) return;
+	if (maxval < 5) return;
 
 	img.blur();
 	img_mirror.blur();
