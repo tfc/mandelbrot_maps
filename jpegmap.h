@@ -41,8 +41,10 @@ class JpegMap
 			_bpp = 3;
 			_color_space = JCS_RGB;
 
-			if (width && height)
+			if (width && height) {
 				_raw = new unsigned char[width * height * _bpp];
+				memset(_raw, 0xff, width*height*_bpp);
+			}
 		}
 
 		JpegMap()
